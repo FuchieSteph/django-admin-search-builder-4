@@ -13,7 +13,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 #  twine upload dist/*
 
 setup(
-    name='django-admin-search-builder',
+    name='django-admin-search-builder-fork',
     version='0.2.2',
     packages=find_packages(),
     include_package_data=True,
@@ -36,6 +36,6 @@ setup(
         'Programming Language :: Python :: 3',
     ],
     install_requires=[
-        'django>=2.0,<4.0',
+        'django>4.0',
     ],
 )
