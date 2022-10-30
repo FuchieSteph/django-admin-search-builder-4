@@ -102,6 +102,8 @@
                 element.select2({
                     data: options,
                     theme: "bootstrap-5",
+                    allowClear: true,
+                    placeholder: 'select..'
                 })
             },
         }
@@ -172,7 +174,7 @@
         // first_val = '?custom_search=';
 
         $('.cs_container').each(function () {
-            if ($(this).find('.cs_name').val() == '') return;
+            if ($(this).find('.cs_name').val() == '' || $(this).find('.cs_value').val() == '') return;
 
             search = [$(this).find('.cs_name').val(),
                 $(this).find('.cs_action').val(),
