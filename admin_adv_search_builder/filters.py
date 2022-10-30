@@ -7,6 +7,7 @@ class AdvancedSearchBuilder(admin.SimpleListFilter):
     title = _('Custom Search')
     parameter_name = 'custom_search'
     template = 'filters/custom_search.html'
+    fields = None
 
     def lookups(self, request, model_admin):
         """ it can be overloaded as follows
@@ -32,6 +33,7 @@ class AdvancedSearchBuilder(admin.SimpleListFilter):
             for se in search_list:
                 sple = se.split(',')
                 se_dict = {'{}__{}'.format(sple[0], sple[2]): sple[3]}
+
                 try:
                     queryset = getattr(queryset, sple[1])(**se_dict)
                 except Exception as e:
@@ -39,11 +41,23 @@ class AdvancedSearchBuilder(admin.SimpleListFilter):
                                          _('Search filter {} failed: {}').format(se, e))
             return queryset
 
-
     def choices(self, changelist):
-        for lookup, title in self.lookup_choices:
+
+        for lookup in self.lookup_choices:
+
+            if lookup not in self.fields:
+                continue
+
             yield {
                 'selected': self.value() == str(lookup),
                 'query_string': changelist.get_query_string({self.parameter_name: lookup}),
-                'display': title,
+                'display': lookup,
+            }
+
+        for lookup in self.fields:
+
+            yield {
+                'selected': self.value() == str(lookup),
+                'query_string': changelist.get_query_string({self.parameter_name: lookup}),
+                'display': lookup,
             }
